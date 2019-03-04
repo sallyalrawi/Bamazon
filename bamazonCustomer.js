@@ -1,5 +1,5 @@
 var mysql = require("mysql");
-
+var inquirer = require("inquirer");
 var connection = mysql.createConnection({
   host: "localhost",
 
@@ -18,18 +18,19 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
   afterConnection();
+  askCustomer();
 });
 function afterConnection() {
     connection.query("SELECT * FROM products", function(err, res) {
       if (err) throw err;
       console.log(res);
       connection.end();
-
+     
     });
 
 }
 function askCustomer() {
- 
+
   inquirer
   .prompt([
     {
@@ -58,3 +59,4 @@ function askCustomer() {
         }
       });
     })
+  }
