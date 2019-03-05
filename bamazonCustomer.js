@@ -14,6 +14,10 @@ var connection = mysql.createConnection({
   database: "bamazon_db"
 });
 
+var currentProduct = {
+  id: 0,
+  quantity: 0
+}
 connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
@@ -24,10 +28,23 @@ function afterConnection() {
     connection.query("SELECT * FROM products", function(err, res) {
       if (err) throw err;
       console.log(res);
-      connection.end();
+      //connection.end();
      
     });
 
+}
+function updateiventory(itemId, newQuantity){
+  connection.query(
+    "UPDATE bamazon_db.products SET stock_quantity = ? WHERE ?", [parseInt(newQuantity),
+    {
+      item_id: parseInt(itemId)
+    }],
+    function(err, res) {
+      console.log(res);
+      console.log("newQuantity",newQuantity);
+      console.log(err);
+    }
+  );
 }
 function askCustomer() {
 
@@ -45,18 +62,27 @@ function askCustomer() {
   }
 ])
   .then(function(answer) {
+    currentProduct.quantity = answer.unit;
+    currentProduct.id = answer.item_id;
     // when finished prompting, insert a new item into the db with that info
     connection.query(
-      "SELECT FROM products WHERE ?",
+      "SELECT * FROM products WHERE ?",
       {
-        item_id: answer.item_id
+        item_id:parseInt(answer.item_id)
       },
       function(err, res) {
         if (err) throw err;
-
-        if (res.stock_quantity < answer.stock_quantiy) {
+        
+        if (res.stock_quantity < currentProduct.quantity) {
           console.log('Not enough inventory');
         }
+        else{
+          console.log("Here is your product!");
+          console.log("res.stock_quantity",res[0].stock_quantity);
+          console.log("currentProduct.quantity",res[0].currentProduct.quantity);
+          updateiventory(answer.item_id, res.stock_quantity - currentProduct.quantity);
+        }
+
       });
     })
   }
