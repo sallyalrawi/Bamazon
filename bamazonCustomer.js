@@ -42,7 +42,7 @@ function updateiventory(itemId, newQuantity){
     function(err, res) {
       console.log(res);
       console.log("newQuantity",newQuantity);
-      console.log(err);
+      // console.log(err);
     }
   );
 }
@@ -79,8 +79,8 @@ function askCustomer() {
         else{
           console.log("Here is your product!");
           console.log("res.stock_quantity",res[0].stock_quantity);
-          console.log("currentProduct.quantity",res[0].currentProduct.quantity);
-          updateiventory(answer.item_id, res.stock_quantity - currentProduct.quantity);
+          console.log("currentProduct.quantity",currentProduct.quantity);
+          updateiventory(answer.item_id, res[0].stock_quantity - currentProduct.quantity);
         }
 
       });
