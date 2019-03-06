@@ -12,6 +12,6 @@ The app should prompt users with two messages:
 Once the customer has placed the order,The application should check if the store has enough of the product to meet the customer's request.
 
 -HERE IS SCREENSHOT OF THE OUTPUTS:
-![img1](/images/display1.png)
-![img2](/images/display2.png)
-![img3](/images/display3.png)
+![display1](/Images/display1.png)
+![display2](/Images/display2.png)
+![display3](/Images/display3.png)
