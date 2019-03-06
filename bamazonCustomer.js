@@ -37,12 +37,13 @@ function updateiventory(itemId, newQuantity){
   connection.query(
     "UPDATE bamazon_db.products SET stock_quantity = ? WHERE ?", [parseInt(newQuantity),
     {
-      item_id: parseInt(itemId)
+      item_id: parseInt(itemId),
+   
     }],
     function(err, res) {
       console.log(res);
       console.log("newQuantity :" , newQuantity);
-      // console.log(err);
+      console.log("your total price is :",);
     }
   );
 }
@@ -81,8 +82,16 @@ function askCustomer() {
           console.log("res.stock_quantity",res[0].stock_quantity);
           console.log("currentProduct.quantity",currentProduct.quantity);
           updateiventory(answer.item_id, res[0].stock_quantity - currentProduct.quantity);
+          getPrice();
         }
 
       });
     })
   }
+    function getPrice () {
+      var price = parseInt("price").value;
+      var units = parseInt("unit").value;
+    
+      var totalPrice = price *  units
+      console.log("your total price is :" , totalPrice);
+    }
