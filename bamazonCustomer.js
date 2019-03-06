@@ -41,7 +41,7 @@ function updateiventory(itemId, newQuantity){
     }],
     function(err, res) {
       console.log(res);
-      console.log("newQuantity",newQuantity);
+      console.log("newQuantity :" , newQuantity);
       // console.log(err);
     }
   );
@@ -64,7 +64,7 @@ function askCustomer() {
   .then(function(answer) {
     currentProduct.quantity = answer.unit;
     currentProduct.id = answer.item_id;
-    // when finished prompting, insert a new item into the db with that info
+
     connection.query(
       "SELECT * FROM products WHERE ?",
       {
@@ -74,7 +74,7 @@ function askCustomer() {
         if (err) throw err;
         
         if (res.stock_quantity < currentProduct.quantity) {
-          console.log('Not enough inventory');
+          console.log('Insufficient quantity!');
         }
         else{
           console.log("Here is your product!");
