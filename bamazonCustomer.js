@@ -18,6 +18,7 @@ var currentProduct = {
   id: 0,
   quantity: 0
 }
+
 connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
@@ -43,7 +44,7 @@ function updateiventory(itemId, newQuantity){
     function(err, res) {
       console.log(res);
       console.log("newQuantity :" , newQuantity);
-      console.log("your total price is :",);
+      // console.log("your total price is :");
     }
   );
 }
@@ -69,7 +70,8 @@ function askCustomer() {
     connection.query(
       "SELECT * FROM products WHERE ?",
       {
-        item_id:parseInt(answer.item_id)
+        item_id:parseInt(answer.item_id),
+     
       },
       function(err, res) {
         if (err) throw err;
@@ -78,19 +80,20 @@ function askCustomer() {
           console.log('Insufficient quantity!');
         }
         else{
+          console.log(res);
           console.log("Here is your product!");
           console.log("res.stock_quantity",res[0].stock_quantity);
           console.log("currentProduct.quantity",currentProduct.quantity);
           updateiventory(answer.item_id, res[0].stock_quantity - currentProduct.quantity);
-          getPrice();
+          getPrice(res[0].price, answer.unit);
         }
 
       });
     })
   }
-    function getPrice () {
-      var price = parseInt("price").value;
-      var units = parseInt("unit").value;
+    function getPrice (price,units) {
+      var price = parseInt(price);
+      var units = parseInt(units);
     
       var totalPrice = price *  units
       console.log("your total price is :" , totalPrice);
